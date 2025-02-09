@@ -10,7 +10,6 @@
     <div class="dropdownBackground">
       <span class="arrow"></span>
     </div>
-
     <ul class="cool">
       <li>
         <a href="#">About Me</a>
@@ -65,6 +64,7 @@
       </li>
     </ul>
   </nav>
+  
   <a href="Lozada, Carl Lorenz.pdf" download class="btn btn--download">Download CV</a>
 
 <style>
@@ -234,12 +234,54 @@
   /* Matches Twitter, TWITTER, twitter, tWitter, TWiTTeR... */
   .button[href*=linkedin] { background: #3B5998; }
   .button[href*=github] { background: #000000; }
+
+/*Image Carousel*/
+  
+.carousel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .carousel img {
+            width: 800px;  /* Increased width */
+            height: 600px; /* Increased height */
+            border-radius: 10px; /* Optional: adds rounded corners */
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Hover effect */
+        .carousel img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Carousel navigation buttons */
+        .carousel-buttons {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            margin-top: 30px;
+        }
+        .carousel-buttons button {
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background: #333; /* Matches the nav bar */
+            color: white;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .carousel-buttons button:hover {
+            background: #555; /* Slightly lighter on hover */
+        }
 </style>
 
 <script>
   const triggers = document.querySelectorAll('.cool > li');
   const background = document.querySelector('.dropdownBackground');
-  const nav = document.querySelector('.top');
+  const dropdown = document.querySelector('.top');
 
   function handleEnter() {
     this.classList.add('trigger-enter');
@@ -271,6 +313,92 @@
 
   triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
   triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
+
+  /*Image Carousel*/
+  let currentIndex = 0;
+    const images = ['drum-kit.png', 'mic-detection.png', 'slack-clone.png', 'text-2-speech.png', 'tic-cat-doge.png', 'manga-heart.png', 'count-down-timer.png', 'whack-a-mole.png', 'digital-analog-clock.png', 'momentum-app.png'];
+    
+    const links = [
+      'https://github.com/DEVZILLAA/JS-Drumkit', 
+      'https://github.com/DEVZILLAA/JS-Speech-Detection', 
+      'https://github.com/DEVZILLAA/slack-clone',
+      'https://github.com/DEVZILLAA/JS-Text-to-Speech',
+      'https://github.com/DEVZILLAA/tic-cat-doge',
+      'https://github.com/DEVZILLAA/manga-app',
+      'https://github.com/DEVZILLAA/JS-Countdown-Timer',
+      'https://github.com/DEVZILLAA/JS-Whack-A-Mole',
+      'https://github.com/DEVZILLAA/JS-Animated-clock',
+      'https://github.com/DEVZILLAA/final-momentum-app',
+    ];
+    
+
+    // Create carousel div
+    const carousel = document.createElement('div');
+    carousel.className = 'carousel';
+
+    // Create image element
+    const carouselImage = document.createElement('img');
+    carouselImage.src = images[currentIndex];
+    carouselImage.width = 800;
+    carouselImage.height = 500;
+    carouselImage.style.cursor = 'pointer';
+    carousel.appendChild(carouselImage);
+
+     // Click event to open the GitHub repository in a new tab
+     carouselImage.onclick = () => {
+      window.open(links[currentIndex], '_blank'); // Opens link in a new tab
+    };
+
+    // Insert carousel right after the <nav>
+    const nav = document.querySelector('nav');
+    nav.insertAdjacentElement('afterend', carousel);
+
+    // Navigation buttons
+    const carouselButtons = document.createElement('div');
+    carouselButtons.className = 'carousel-buttons';
+
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Previous';
+    prevButton.onclick = () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      carouselImage.src = images[currentIndex];
+    };
+
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Next';
+    nextButton.onclick = () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      carouselImage.src = images[currentIndex];
+    };
+
+    carouselButtons.appendChild(prevButton);
+    carouselButtons.appendChild(nextButton);
+
+    // Insert buttons right after carousel
+    carousel.insertAdjacentElement('afterend', carouselButtons);
+
+    // Function to update image
+function updateImage() {
+  carouselImage.src = images[currentIndex];
+}
+
+    // Slideshow Function
+let slideInterval;
+
+function startSlideshow() {
+  slideInterval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateImage();
+  }, 5000); // Change image every 5 sec
+}
+
+function resetSlideshow() {
+  clearInterval(slideInterval);
+  startSlideshow();
+}
+
+// Start the slideshow when the page loads
+startSlideshow();
 </script>
 
 </body>
